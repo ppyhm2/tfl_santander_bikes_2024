@@ -25,7 +25,7 @@ sources:
           - name: "Start station"
             description: Name of the start station
           - name: "End date"
-            description: Journey start datetime in UTC
+            description: Journey end datetime in UTC
           - name: "End station number"
             description: ID of the station where the journey ended
           - name: "End station"
@@ -44,7 +44,7 @@ sources:
           Raw station metadata from the TfL Unified API, given in the form of an XML.
 
         columns:
-          - name: dbt terminalName
+          - name: terminalName
             description: Physical terminal identifier/ID
           - name: name
             description: Docking station name
