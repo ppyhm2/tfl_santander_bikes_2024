@@ -1,0 +1,64 @@
+version: 2
+
+sources:
+  - name: tfl
+    description: >
+      Raw Transport for London (TfL) data for Santander Cycle Hire,
+      ingested without transformation. Journey data is just for 2024 and the station data is correct as of 21-12-2025.
+
+    database: "{{ target.database }}"
+    schema: raw_tfl
+
+    tables:
+      - name: journey
+        description: >
+          Weekly journey extracts from TfL cycling data.
+          One row per bike hire journey.
+
+        columns:
+          - name: "Number"
+            description: Unique identifier for each bike hire
+          - name: "Start date"
+            description: Journey start datetime in UTC
+          - name: "Start station number"
+            description: ID of the station where the journey started
+          - name: "Start station"
+            description: Name of the start station
+          - name: "End date"
+            description: Journey start datetime in UTC
+          - name: "End station number"
+            description: ID of the station where the journey ended
+          - name: "End station"
+            description: Name of the end station
+          - name: "Bike number"
+            description: Unique identifier for the bike
+          - name: "Bike model"
+            description: The type of bike hired for the journey
+          - name: "Total duration"
+            description: Journey duration in hours and minutes (string)
+          - name: "Total duration in ms"
+            description: Journey duration in milliseconds
+
+      - name: docking_station
+        description: >
+          Raw station metadata from the TfL Unified API, given in the form of an XML.
+
+        columns:
+          - name: dbt terminalName
+            description: Physical terminal identifier/ID
+          - name: name
+            description: Docking station name
+          - name: lat
+            description: Latitude of the station
+          - name: long
+            description: Longitude of the station
+          - name: nbDocks
+            description: Total number of docks at the station
+          - name: temporary
+            description: Whether the station is temporary
+          - name: installed
+            description: Whether the station is installed in the network
+          - name: installDate
+            description: Installation timestamp in Unix epoch milliseconds
+          - name: removalDate
+            description: Removal timestamp in Unix epoch milliseconds
