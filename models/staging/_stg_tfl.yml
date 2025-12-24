@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_tfl__journey
+    description: Cleaned cycle hire journey data e.g. renaming columns, casting to the correct data type, converting journey time to seconds
+    columns:
+      - name: journey_id
+        tests:
+          - not_null
+          - unique
+
+#      - name: start_station_id
+#        tests:
+#          - not_null
+#          - relationships:
+#              field: ref('stg_tfl__docking_station')
+#              to: station_id
+
+#      - name: end_station_id
+#        tests:
+#          - not_null
+#          - relationships:
+#              field: ref('stg_tfl__docking_station')
+#              to: station_id
+
+      - name: ended_on_utc
+        tests:
+          - not_null        
+
+  - name: stg_tfl__docking_station
+    description: Cleaned docking station dimension data e.g. renaming columns, casting to the correct data type, converting the time to UTC datetime
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+          - unique
