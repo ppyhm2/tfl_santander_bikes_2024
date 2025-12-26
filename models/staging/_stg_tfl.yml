@@ -22,14 +22,16 @@ models:
           - relationships:
               to: ref('stg_tfl__docking_station')
               field: station_id
-              severity: warn
+              arguments:
+                severity: warn
 
       - name: end_station_id
         tests:
           - relationships:
               to: ref('stg_tfl__docking_station')
               field: station_id
-              severity: warn
+              arguments:
+                severity: warn
 
   - name: stg_tfl__docking_station
     description: Cleaned docking station dimension data e.g. renaming columns, casting to the correct data type, converting the time to UTC datetime
