@@ -2,6 +2,7 @@ WITH source AS
 (
     SELECT *
     FROM {{ source('tfl', 'journey') }}
+    WHERE `Start date` <= `End date`
 ),
 
 renamed AS

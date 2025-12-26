@@ -22,3 +22,7 @@ j.journey_duration_seconds
 FROM {{ ref("stg_tfl__journey") }} j
 LEFT JOIN {{ ref("stg_tfl__docking_station") }} dss ON j.start_station_id = dss.station_id
 LEFT JOIN {{ ref("stg_tfl__docking_station") }} dse ON j.end_station_id = dse.station_id
+
+-- fact table may have missing data for start/end longitude, latitude, and station ID because the station may be missing from the
+-- docking station dimension table e.g. an old station. However, start/end station name will still be available because
+-- that data comes from the journey table which is immutable

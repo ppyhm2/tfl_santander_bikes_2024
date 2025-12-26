@@ -9,23 +9,27 @@ models:
           - not_null
           - unique
 
-#      - name: start_station_id
-#        tests:
-#          - not_null
-#          - relationships:
-#              field: ref('stg_tfl__docking_station')
-#              to: station_id
-
-#      - name: end_station_id
-#        tests:
-#          - not_null
-#          - relationships:
-#              field: ref('stg_tfl__docking_station')
-#              to: station_id
+      - name: started_on_utc
+        tests:
+          - not_null
 
       - name: ended_on_utc
         tests:
-          - not_null        
+          - not_null     
+
+      - name: start_station_id
+        tests:
+          - relationships:
+              to: ref('stg_tfl__docking_station')
+              field: station_id
+              severity: warn
+
+      - name: end_station_id
+        tests:
+          - relationships:
+              to: ref('stg_tfl__docking_station')
+              field: station_id
+              severity: warn
 
   - name: stg_tfl__docking_station
     description: Cleaned docking station dimension data e.g. renaming columns, casting to the correct data type, converting the time to UTC datetime
