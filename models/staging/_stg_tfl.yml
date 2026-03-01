@@ -17,7 +17,7 @@ models:
                 min_value: "cast('2024-01-01' as timestamp)"
                 inclusive: true
               config:
-                severity: warn
+                severity: Warn
 
       - name: ended_on_utc
         data_tests:
@@ -27,7 +27,7 @@ models:
                 min_value: "cast('2024-01-01' as timestamp)"
                 inclusive: true
               config:
-                severity: warn
+                severity: Warn
 
       - name: start_station_id
         data_tests:
@@ -40,7 +40,7 @@ models:
                 to: ref('stg_tfl__docking_station')
                 field: station_id
               config:
-                severity: warn
+                severity: Warn
 
       - name: end_station_id
         data_tests:
@@ -53,7 +53,7 @@ models:
                 to: ref('stg_tfl__docking_station')
                 field: station_id
               config:
-                severity: warn
+                severity: Warn
 
       - name: journey_duration_seconds
         data_tests:
@@ -63,13 +63,13 @@ models:
                 min_value: 1
                 max_value: 86400
               config:
-                severity: warn
+                severity: Warn
 
       - name: bike_id
         data_tests:
           - not_null:
               config:
-                severity: warn
+                severity: Warn
           - dbt_utils.accepted_range:
               arguments:
                 min_value: 1
@@ -80,7 +80,7 @@ models:
               arguments:
                 value_set: ['CLASSIC', 'PBSC_EBIKE']
               config:
-                severity: warn
+                severity: Warn
 
   - name: stg_tfl__docking_station
     description: Cleaned docking station dimension data e.g. renaming columns, casting to the correct data type, converting the time to UTC datetime
@@ -102,7 +102,7 @@ models:
                 min_value: -90
                 max_value: 90
               config:
-                severity: warn
+                severity: Warn
 
       - name: longitude
         data_tests:
@@ -112,4 +112,4 @@ models:
                 min_value: -180
                 max_value: 180
               config:
-                severity: warn
+                severity: Warn
