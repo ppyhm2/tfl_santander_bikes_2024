@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: stg_tfl__journey
+    description: Cleaned cycle hire journey data e.g. renaming columns, casting to the correct data type, converting journey time to seconds
+    columns:
+      - name: journey_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: started_on_utc
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: "cast('2024-01-01' as timestamp)"
+                inclusive: true
+              config:
+                severity: Warn
+
+      - name: ended_on_utc
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: "cast('2024-01-01' as timestamp)"
+                inclusive: true
+              config:
+                severity: Warn
+
+      - name: start_station_id
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+          - relationships:
+              arguments:
+                to: ref('stg_tfl__docking_station')
+                field: station_id
+              config:
+                severity: Warn
+
+      - name: end_station_id
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+          - relationships:
+              arguments:
+                to: ref('stg_tfl__docking_station')
+                field: station_id
+              config:
+                severity: Warn
+
+      - name: journey_duration_seconds
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+                max_value: 86400
+              config:
+                severity: Warn
+
+      - name: bike_id
+        data_tests:
+          - not_null:
+              config:
+                severity: Warn
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+
+      - name: bike_model
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              arguments:
+                value_set: ['CLASSIC', 'PBSC_EBIKE']
+              config:
+                severity: Warn
+
+  - name: stg_tfl__docking_station
+    description: Cleaned docking station dimension data e.g. renaming columns, casting to the correct data type, converting the time to UTC datetime
+    columns:
+      - name: station_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: station_name
+        data_tests:
+          - not_null
+
+      - name: latitude
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: -90
+                max_value: 90
+              config:
+                severity: Warn
+
+      - name: longitude
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: -180
+                max_value: 180
+              config:
+                severity: Warn

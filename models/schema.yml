@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_station_daily_net_flow
+    description: >
+      An intermediate model with a granularity of one row per station per day.
+      It combines the journey starts and ends to calculate the daily net flow (whether the station ends up with more or less bikes than
+      it started with at the start of the day), and adds calendar information so it can be reused downstream.
+    columns:
+      - name: station_name
+        description: The station that the journey started/ended at
+      - name: journey_date
+        description: The date in YYYY-MM-DD that the journey started/ended
+      - name: day_of_week
+        description: The day of the week that journey_date corresponds to
+      - name: weekday_or_weekend
+        description: Whether journey_date falls on a weekday or a weekend
+      - name: journeys_started
+        description: The number (integer) of journeys that started at this station_name on journey_date
+      - name: journeys_ended
+        description: The number (integer) of journeys that ended at this station_name on journey_date      
+      - name: net_flow_journeys
+        description: journeys_ended minus journeys_started
+
+  - name: mart_station_net_flow_weekday_weekend
+    description: >
+      An aggregated mart which uses int_station_daily_net_flow to provide weekday vs. weekend seasonality metrics per station
+    columns:
+      - name: station_name
+        description: The station that the journey started/ended at
+      - name: weekday_or_weekend
+        description: Indicates whether the aggregated metrics relate to Weekday or Weekend
+      - name: average_daily_net_flow
+        description: The average net flow per day for the station and day type
+      - name: total_journeys_started
+        description: The total number of journeys started for the station and day type
+      - name: total_journeys_ended
+        description: The total number of journeys ended for the station and day type
+      - name: total_yearly_net_flow
+        description: The sum of net flows across all the days the the station and day type (in the whole dataset i.e. 2024)
