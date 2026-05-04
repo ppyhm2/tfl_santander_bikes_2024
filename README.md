@@ -75,4 +75,4 @@ This project was developed using [dbt Cloud](https://www.getdbt.com/product/dbt-
 - This project is primarily a learning exercise to practise dbt, BigQuery, and modern ELT patterns, rather than a production pipeline.
 - BigQuery was chosen as the data warehouse both to gain experience with a modern cloud platform and because its free tier makes it accessible for personal projects.
 - Journey data covers 2024 only.
-- Docking station correct as of December 2025.
+- Docking station data correct as of December 2025.
