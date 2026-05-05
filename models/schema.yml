@@ -38,3 +38,48 @@ models:
         description: The total number of journeys ended for the station and day type
       - name: total_yearly_net_flow
         description: The sum of net flows across all the days the the station and day type (in the whole dataset i.e. 2024)
+
+  - name: fct_cycle_journeys
+    description: >
+      Fact table with one row per cycle hire journey. Joins staged journey data
+      with docking station metadata for both start and end stations. Left joins
+      are used to preserve all journeys, including those where a station has since
+      been decommissioned and is absent from the station dimension.
+    columns:
+      - name: journey_id
+        description: Unique identifier for each bike hire journey
+        data_tests:
+          - not_null
+          - unique
+      - name: started_on_utc
+        description: Journey start datetime in UTC
+      - name: started_on_hour
+        description: Hour extracted from started_on_utc, for time-of-day analysis
+      - name: started_on_day_of_week
+        description: Full day name (e.g. Monday) derived from started_on_utc
+      - name: journey_started_weekday_or_weekend
+        description: Whether the journey started on a weekday or weekend
+      - name: ended_on_utc
+        description: Journey end datetime in UTC
+      - name: start_station_name
+        description: Name of the station where the journey started
+      - name: start_station_latitude
+        description: Latitude of the start station, null if station is decommissioned
+      - name: start_station_longitude
+        description: Longitude of the start station, null if station is decommissioned
+      - name: start_station_number_of_docks
+        description: Total dock count at the start station, null if station is decommissioned
+      - name: end_station_name
+        description: Name of the station where the journey ended
+      - name: end_station_latitude
+        description: Latitude of the end station, null if station is decommissioned
+      - name: end_station_longitude
+        description: Longitude of the end station, null if station is decommissioned
+      - name: end_station_number_of_docks
+        description: Total dock count at the end station, null if station is decommissioned
+      - name: bike_model
+        description: Type of bike hired (CLASSIC or PBSC_EBIKE)
+      - name: journey_duration_hr_min_string
+        description: Journey duration as a human-readable hours and minutes string
+      - name: journey_duration_seconds
+        description: Journey duration in seconds, converted from milliseconds
